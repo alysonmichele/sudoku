@@ -66,6 +66,16 @@ def pop_columns(sudoku):
 # 			columns[m][n]=sudoku[n][m]
 # 	return columns
 
+rowOne=[7,0,0,3,4,0,0,5,0]
+rowTwo=[0,0,5,0,2,0,0,8,0]
+rowThree=[0,8,0,0,0,0,0,0,2]
+rowFour=[0,0,0,9,5,0,0,0,3]
+rowFive=[9,0,0,0,8,0,0,0,1]
+rowSix=[5,0,0,0,1,7,0,0,0]
+rowSeven=[8,0,0,0,0,0,0,6,0]
+rowEight=[0,3,0,0,9,0,2,0,0]
+rowNine=[0,9,0,0,6,2,0,0,7]
+
 # rowOne=[3,0,0,1,9,0,0,5,8]
 # rowTwo=[9,0,0,8,0,4,0,7,0]
 # rowThree=[0,0,7,0,2,0,1,9,0]
@@ -76,15 +86,15 @@ def pop_columns(sudoku):
 # rowEight=[0,1,0,2,0,6,0,0,5]
 # rowNine=[4,6,0,0,5,8,0,0,1]
 
-rowOne=[0,1,0,4,8,0,0,0,0]
-rowTwo=[0,0,0,0,7,0,0,0,2]
-rowThree=[0,3,2,6,9,5,0,0,0]
-rowFour=[1,8,0,0,2,0,0,0,0]
-rowFive=[3,4,0,0,1,0,0,6,8]
-rowSix=[0,0,0,0,6,0,0,4,5]
-rowSeven=[0,0,0,2,4,7,8,3,0]
-rowEight=[7,0,0,0,3,0,0,0,0]
-rowNine=[0,0,0,0,5,6,0,2,0]
+# rowOne=[0,1,0,4,8,0,0,0,0]
+# rowTwo=[0,0,0,0,7,0,0,0,2]
+# rowThree=[0,3,2,6,9,5,0,0,0]
+# rowFour=[1,8,0,0,2,0,0,0,0]
+# rowFive=[3,4,0,0,1,0,0,6,8]
+# rowSix=[0,0,0,0,6,0,0,4,5]
+# rowSeven=[0,0,0,2,4,7,8,3,0]
+# rowEight=[7,0,0,0,3,0,0,0,0]
+# rowNine=[0,0,0,0,5,6,0,2,0]
 
 # rowOne=[6,3,5,4,0,0,0,0,0]
 # rowTwo=[9,0,1,5,0,8,0,7,0]
@@ -201,11 +211,12 @@ while total_zeroes > 0:
 					original_columns=copy.deepcopy(columns)
 					print round, total_zeroes, prev_count
 					first_trial=1
+					#pdb.set_trace()
 					prev_count=total_zeroes
 
 ################### TRIAL ##########################################
 					#start at first line, check if it has zeroes
-					while total_zeroes >= 0:
+					while total_zeroes > 0:
 						#if the first round didn't work then reset and try next number
 						#if round_inner >= 10:
 
@@ -215,10 +226,13 @@ while total_zeroes > 0:
 							columns=copy.deepcopy(original_columns)
 							second_choice=True
 							first_trial=1
-							pdb.set_trace()
+							round_inner=0
+							#pdb.set_trace()
 
 
 						for d in range(9):
+							counts=collections.Counter(itertools.chain(*sudoku))
+							total_zeroes=counts[0]
 							row_choices=[]
 							no_dupes=set()
 							position=0
@@ -258,6 +272,8 @@ while total_zeroes > 0:
 											num=available.pop()
 											sudoku[d][c]=num
 											row_choices.append([num])
+											if sudoku[d].count(0)==0:
+												c=c+1
 											#create a list of indices that we are trying
 											#trial.append([d,c])
 										else:
@@ -296,7 +312,7 @@ while total_zeroes > 0:
 													total_zeroes=counts[0]
 													if total_zeroes==0:
 														print 'SOLVED!'
-													break
+														break
 											else:
 												#go to next space 
 												c=c+1
@@ -320,8 +336,7 @@ while total_zeroes > 0:
 											else:
 												prev_count=total_zeroes
 												print prev_count
-												d=d+1
-												pdb.set_trace()
+												#pdb.set_trace()
 												break
 
 

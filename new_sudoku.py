@@ -144,6 +144,7 @@ while total_zeroes > 0:
 		y=0
 		u=0
 		for y in range(9):
+			#pdb.set_trace()
 			used=[]
 			square=[]
 			#if it's not empty, put dummy 99 in row_choices to hold index, then go to next space
@@ -172,6 +173,8 @@ while total_zeroes > 0:
 					num=available.pop()
 					sudoku[x][y]=num
 					row_choices.append([num])
+					if sudoku[x].count(0)==0:
+						y=y+1
 				else:
 				#if there's more than one, add the possibilities to the row's list of sets
 					row_choices.append(available)
@@ -184,13 +187,13 @@ while total_zeroes > 0:
 							#if number only appears once, then place it where it belongs
 								pos=find(z, row_choices)
 								sudoku[x][pos]=z
-						x=x+1
+						y=y+1
 						counts=collections.Counter(itertools.chain(*sudoku))
 						#count how many zeroes are left
 						total_zeroes=counts[0]
 						if total_zeroes==0:
 							print 'SOLVED!'
-						break
+							break
 					else:
 						#go to next space 
 						y=y+1
@@ -206,19 +209,18 @@ while total_zeroes > 0:
 					prev_count=total_zeroes
 
 				if round >=25:
+					#pdb.set_trace()
 					print 'NO GOOD'
 					original_sudoku=copy.deepcopy(sudoku)
 					original_columns=copy.deepcopy(columns)
 					print round, total_zeroes, prev_count
 					first_trial=1
-					#pdb.set_trace()
 					prev_count=total_zeroes
 
 ################### TRIAL ##########################################
 					#start at first line, check if it has zeroes
 					while total_zeroes > 0:
 						#if the first round didn't work then reset and try next number
-						#if round_inner >= 10:
 
 						if try_again==True:
 							try_again=False
@@ -323,29 +325,29 @@ while total_zeroes > 0:
 											#if round_inner > 10:
 											#	print trial
 											#	exit()
-										if c==9:
-											#pdb.set_trace()
+									if c==9:
+										pdb.set_trace()
 
-											columns=pop_columns(sudoku)
+										columns=pop_columns(sudoku)
 						#if the row doesn't have zeroes, go to next row
-											d=d+1
-											counts=collections.Counter(itertools.chain(*sudoku))
-											total_zeroes=counts[0]
-											if prev_count==total_zeroes:
-												round_inner=round_inner+1
-											else:
-												prev_count=total_zeroes
-												print prev_count
-												#pdb.set_trace()
-												break
+										d=d+1
+										counts=collections.Counter(itertools.chain(*sudoku))
+										total_zeroes=counts[0]
+										if prev_count==total_zeroes:
+											round_inner=round_inner+1
+										else:
+											prev_count=total_zeroes
+											print prev_count
+											#pdb.set_trace()
+											break
 
 
-											if round_inner>=10:
-												#if it gets here, reset all the zeroes 
-												d=0
-												c=0
-												try_again=True
-												print prev_count, total_zeroes
+										if round_inner>=10:
+											#if it gets here, reset all the zeroes 
+											d=0
+											c=0
+											try_again=True
+											print prev_count, total_zeroes
 
 ############## TRIAL ########################################
 
@@ -353,15 +355,16 @@ while total_zeroes > 0:
 					#select one of the numbers and insert it
 					print sudoku
 					exit()
+				print 'do i get here'
 				columns=pop_columns(sudoku)
-
 				x=x+1
 				counts=collections.Counter(itertools.chain(*sudoku))
 				total_zeroes=counts[0]
+				#pdb.set_trace()
 				if total_zeroes==0:
 					#print sudoku
 					print 'SOLVED'
-				break
+					break
 
 
 
